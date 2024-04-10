@@ -9,42 +9,54 @@ class PostDetailsScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Post Details'),
       ),
-      body: Column(
-        children: [
-          Image.network(
-            'https://picsum.photos/200/300',
-            fit: BoxFit.cover,
-            width: double.infinity,
-          ),
-          const SizedBox(height: 16),
-          Row(
-            children: [
-              const CircleAvatar(
-                radius: 20,
-                backgroundImage: NetworkImage('https://picsum.photos/200'),
-              ),
-              Text(
-                'Author Name',
-                style: Theme.of(context).textTheme.bodySmall,
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          const Wrap(
-            children: [
-              Chip(
-                label: Text('Tag 1'),
-              ),
-              Chip(
-                label: Text('Tag 2'),
-              ),
-              Chip(
-                label: Text('Tag 3'),
-              ),
-            ],
-          ),
-          Text('Post Body ' * 20),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Image.network(
+              'https://picsum.photos/200/300',
+              fit: BoxFit.cover,
+              width: double.infinity,
+              height: 300,
+            ),
+            const SizedBox(height: 16),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(width: 16),
+                const CircleAvatar(
+                  radius: 20,
+                  backgroundImage: NetworkImage('https://picsum.photos/200'),
+                ),
+                const SizedBox(width: 16),
+                Text(
+                  'Author Name',
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            const Wrap(
+              runSpacing: 8,
+              spacing: 8,
+              crossAxisAlignment: WrapCrossAlignment.start,
+              runAlignment: WrapAlignment.start,
+              children: [
+                Chip(
+                  label: Text('Tag 1'),
+                ),
+                Chip(
+                  label: Text('Tag 2'),
+                ),
+                Chip(
+                  label: Text('Tag 3'),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            Text('Post Body ' * 20),
+          ],
+        ),
       ),
     );
   }
