@@ -10,10 +10,10 @@ class PostCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: Card(
-        margin: const EdgeInsets.all(8),
+    return Card(
+      margin: const EdgeInsets.all(8),
+      child: InkWell(
+        onTap: onTap,
         child: Column(
           children: [
             Expanded(
