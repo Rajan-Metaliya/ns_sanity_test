@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../widgets/post_card.dart';
+import '../post_details/post_detail_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -21,7 +22,16 @@ class HomeScreen extends StatelessWidget {
         ),
         itemCount: 10,
         itemBuilder: (context, index) {
-          return const PostCard();
+          return PostCard(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const PostDetailsScreen(),
+                ),
+              );
+            },
+          );
         },
       ),
     );
