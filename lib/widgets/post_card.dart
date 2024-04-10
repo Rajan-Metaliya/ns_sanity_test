@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 
+import '../data/post_model.dart';
+
 class PostCard extends StatelessWidget {
   const PostCard({
     super.key,
     required this.onTap,
+    required this.post,
   });
 
   final Function() onTap;
+  final PostModel post;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +25,7 @@ class PostCard extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8),
                 child: Image.network(
-                  'https://picsum.photos/200/300',
+                  post.image,
                   fit: BoxFit.cover,
                   width: double.infinity,
                 ),
@@ -34,22 +38,21 @@ class PostCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      'Title',
-                      style: TextStyle(
+                    Text(
+                      post.image,
+                      style: const TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     Row(
                       children: [
-                        const CircleAvatar(
+                        CircleAvatar(
                           radius: 20,
-                          backgroundImage:
-                              NetworkImage('https://picsum.photos/200'),
+                          backgroundImage: NetworkImage(post.author.image),
                         ),
                         Text(
-                          'Author Name',
+                          post.author.name,
                           style: Theme.of(context).textTheme.bodySmall,
                         ),
                       ],

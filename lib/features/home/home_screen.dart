@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sanity/flutter_sanity.dart';
 
+import '../../data/post_model.dart';
 import '../../widgets/post_card.dart';
 import '../post_details/post_detail_screen.dart';
 
@@ -19,7 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
         'skehtrXnIbUB0rK6CnMjqWua7RDCr9eQ9XfXiWaN7jz0JwjPWqLXCPtYd6nsVWevyoKcMolDSrY7lVSz6SvpbgBb33HrlsSy63dXV1sBBSOk7OJk1dg1WEHYQ61pZQNfBUIWl7vY5FSs2NY7Qvkds5VvfLgtLv9ZxrrQPAm2wxFjmNXm86ST',
   );
 
-  String? response;
+  List<PostModel> posts = [];
 
   @override
   void initState() {
@@ -28,16 +29,22 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   _getData() async {
+    print('sanityClient: ${PostModel.sanityPost}');
     try {
       final data = await sanityClient.fetch(
-        "*[_type == 'post']{\n  title,\n  author->{\n    name\n  }\n}",
+        "*[_type == 'post']${PostModel.sanityPost}",
       );
+
       print('Data: $data');
-      response = data.toString();
+      posts = List<PostModel>.from(
+        data.map(
+          (category) => PostModel.fromJson(category),
+        ),
+      );
 
       setState(() {});
-    } catch (e) {
-      print('Error: $e');
+    } catch (e, s) {
+      print('Error: $e, Stack: $s');
     }
   }
 
@@ -47,30 +54,35 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: const Text('Home Screen'),
       ),
-      body: GridView.builder(
-        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-          maxCrossAxisExtent: 400,
-          mainAxisExtent: 400,
-          crossAxisSpacing: 10,
-          mainAxisSpacing: 10,
-          childAspectRatio: 1,
-        ),
-        itemCount: 10,
-        itemBuilder: (context, index) {
-          return PostCard(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => PostDetailsScreen(
-                    description: response ?? 'Description',
-                  ),
-                ),
-              );
-            },
-          );
-        },
-      ),
+      body: posts.isEmpty
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
+          : GridView.builder(
+              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: 400,
+                mainAxisExtent: 400,
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+                childAspectRatio: 1,
+              ),
+              itemCount: posts.length,
+              itemBuilder: (context, index) {
+                return PostCard(
+                  post: posts[index],
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PostDetailsScreen(
+                          post: posts[index],
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
     );
   }
 }
