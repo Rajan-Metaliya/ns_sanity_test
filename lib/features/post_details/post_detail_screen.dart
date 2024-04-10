@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 
 class PostDetailsScreen extends StatelessWidget {
-  const PostDetailsScreen({super.key});
+  const PostDetailsScreen({
+    super.key,
+    required this.description,
+  });
+
+  final String description;
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +59,7 @@ class PostDetailsScreen extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 16),
-            Text('Post Body ' * 20),
+            Text(description),
           ],
         ),
       ),
