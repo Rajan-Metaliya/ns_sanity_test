@@ -1,9 +1,14 @@
 import 'dart:convert';
 
+import 'package:flutter_sanity_image_url/flutter_sanity_image_url.dart';
+import 'package:flutter_sanity_image_url/src/model/reference_data.dart';
+
+import '../app/config/app_config.dart';
+
 class PostModel {
   final String title;
   final Slug slug;
-  final Image mainImage;
+  final ImageModel mainImage;
   final String excerpt;
   final List<Body> body;
   final Author author;
@@ -28,7 +33,7 @@ class PostModel {
     return PostModel(
       title: json['title'],
       slug: Slug.fromJson(json['slug']),
-      mainImage: Image.fromJson(json['mainImage']),
+      mainImage: ImageModel.fromJson(json['mainImage']),
       excerpt: json['excerpt'],
       body: List<Body>.from(json['body'].map((x) => Body.fromJson(x))),
       author: Author.fromJson(json['author']),
@@ -52,7 +57,7 @@ class PostModel {
 class Author {
   final String name;
   final Slug slug;
-  final Image image;
+  final ImageModel image;
   final List<Body> bio;
 
   Author({
@@ -69,7 +74,7 @@ class Author {
   factory Author.fromJson(Map<String, dynamic> json) => Author(
         name: json['name'],
         slug: Slug.fromJson(json['slug']),
-        image: Image.fromJson(json['image']),
+        image: ImageModel.fromJson(json['image']),
         bio: List<Body>.from(json['bio'].map((x) => Body.fromJson(x))),
       );
 
@@ -142,20 +147,24 @@ class Child {
       };
 }
 
-class Image {
+class ImageModel {
   final String type;
   final Asset asset;
 
-  Image({
+  ImageModel({
     required this.type,
     required this.asset,
   });
 
-  factory Image.fromRawJson(String str) => Image.fromJson(json.decode(str));
+  factory ImageModel.fromRawJson(String str) =>
+      ImageModel.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory Image.fromJson(Map<String, dynamic> json) => Image(
+  String get url =>
+      AppConfig.imageUrlBuilder.image(AppSanityImage(imageId: asset.ref)).url();
+
+  factory ImageModel.fromJson(Map<String, dynamic> json) => ImageModel(
         type: json['_type'],
         asset: Asset.fromJson(json['asset']),
       );
@@ -237,4 +246,34 @@ class Category {
         'title': title,
         'description': description,
       };
+}
+
+class AppSanityImage implements SanityImageSource {
+  AppSanityImage({required this.imageId});
+
+  final String imageId;
+
+  @override
+  String get id => imageId;
+
+  @override
+  ReferenceData parseAssetId() {
+    final refSplit = imageId.split('-');
+
+    if (refSplit.length != 4) {
+      throw Exception(
+        'Malformed asset _ref "$imageId". Expected an id like "$example".',
+      );
+    }
+
+    final dimensions = refSplit[2].split('x');
+
+    final width = int.parse(dimensions[0]);
+    final height = int.parse(dimensions[1]);
+
+    return ReferenceData(refSplit[1], width, height, refSplit[3]);
+  }
+
+  @override
+  get ref => id;
 }

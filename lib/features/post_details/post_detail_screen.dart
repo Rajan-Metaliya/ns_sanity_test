@@ -1,6 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../data/post_model.dart';
+import '../../widgets/image_widget.dart';
 
 class PostDetailsScreen extends StatelessWidget {
   const PostDetailsScreen({
@@ -20,12 +22,12 @@ class PostDetailsScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Image.network(
-            //   post.image,
-            //   fit: BoxFit.cover,
-            //   width: double.infinity,
-            //   height: 300,
-            // ),
+            ImageWidget(
+              image: post.mainImage,
+              fit: BoxFit.cover,
+              width: double.infinity,
+              height: 300,
+            ),
             const SizedBox(height: 16),
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -33,7 +35,8 @@ class PostDetailsScreen extends StatelessWidget {
                 const SizedBox(width: 16),
                 CircleAvatar(
                   radius: 20,
-                  backgroundImage: NetworkImage(post.author.image.type),
+                  backgroundImage:
+                      CachedNetworkImageProvider(post.author.image.url),
                 ),
                 const SizedBox(width: 16),
                 Text(
@@ -42,23 +45,30 @@ class PostDetailsScreen extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 16),
-            Wrap(
-              runSpacing: 8,
-              spacing: 8,
-              crossAxisAlignment: WrapCrossAlignment.start,
-              runAlignment: WrapAlignment.start,
-              children: [
-                for (final category in post.categories)
-                  Chip(
-                    label: Text(category.title),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Wrap(
+                    runSpacing: 8,
+                    spacing: 8,
+                    crossAxisAlignment: WrapCrossAlignment.start,
+                    runAlignment: WrapAlignment.start,
+                    children: [
+                      for (final category in post.categories)
+                        Chip(
+                          label: Text(category.title),
+                        ),
+                    ],
                   ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            Text(
-              post.body.first.children.first.text,
-              style: Theme.of(context).textTheme.bodyLarge,
+                  const SizedBox(height: 16),
+                  Text(
+                    post.body.first.children.first.text,
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                ],
+              ),
             ),
           ],
         ),

@@ -1,6 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../data/post_model.dart';
+import 'image_widget.dart';
 
 class PostCard extends StatelessWidget {
   const PostCard({
@@ -24,11 +26,11 @@ class PostCard extends StatelessWidget {
               flex: 2,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8),
-                // child: Image.network(
-                //   post.image,
-                //   fit: BoxFit.cover,
-                //   width: double.infinity,
-                // ),
+                child: ImageWidget(
+                  image: post.mainImage,
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                ),
               ),
             ),
             Expanded(
@@ -42,20 +44,21 @@ class PostCard extends StatelessWidget {
                       post.title,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: Theme.of(context).textTheme.bodyLarge,
                     ),
+                    const SizedBox(height: 8),
                     Row(
                       children: [
                         CircleAvatar(
                           radius: 20,
-                          backgroundImage: NetworkImage(post.author.image.type),
+                          backgroundImage: CachedNetworkImageProvider(
+                            post.author.image.url,
+                          ),
                         ),
+                        const SizedBox(width: 8),
                         Text(
                           post.author.name,
-                          style: Theme.of(context).textTheme.bodySmall,
+                          style: Theme.of(context).textTheme.bodyMedium,
                         ),
                       ],
                     ),

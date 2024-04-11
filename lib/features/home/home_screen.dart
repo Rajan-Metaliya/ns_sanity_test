@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_sanity/flutter_sanity.dart';
 
+import '../../app/config/app_config.dart';
 import '../../data/post_model.dart';
 import '../../widgets/post_card.dart';
 import '../post_details/post_detail_screen.dart';
@@ -13,13 +13,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final sanityClient = SanityClient(
-    dataset: 'production',
-    projectId: 'f1rvkkre',
-    token:
-        'skehtrXnIbUB0rK6CnMjqWua7RDCr9eQ9XfXiWaN7jz0JwjPWqLXCPtYd6nsVWevyoKcMolDSrY7lVSz6SvpbgBb33HrlsSy63dXV1sBBSOk7OJk1dg1WEHYQ61pZQNfBUIWl7vY5FSs2NY7Qvkds5VvfLgtLv9ZxrrQPAm2wxFjmNXm86ST',
-  );
-
   List<PostModel> posts = [];
 
   @override
@@ -30,7 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   _getData() async {
     try {
-      final data = await sanityClient.fetch(
+      final data = await AppConfig.sanityClient.fetch(
         """
 *[_type == 'post']{
   title,
