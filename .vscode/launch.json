@@ -8,6 +8,12 @@
             "name": "myapp",
             "request": "launch",
             "type": "dart",
+            "program": "lib/main.dart"
+        },
+        {
+            "name": "myapp web",
+            "request": "launch",
+            "type": "dart",
             "args": [
                 "-d",
                 "chrome",

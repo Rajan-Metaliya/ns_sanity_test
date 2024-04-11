@@ -24,11 +24,11 @@ class PostCard extends StatelessWidget {
               flex: 2,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8),
-                child: Image.network(
-                  post.image,
-                  fit: BoxFit.cover,
-                  width: double.infinity,
-                ),
+                // child: Image.network(
+                //   post.image,
+                //   fit: BoxFit.cover,
+                //   width: double.infinity,
+                // ),
               ),
             ),
             Expanded(
@@ -39,7 +39,9 @@ class PostCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      post.image,
+                      post.title,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
@@ -49,7 +51,7 @@ class PostCard extends StatelessWidget {
                       children: [
                         CircleAvatar(
                           radius: 20,
-                          backgroundImage: NetworkImage(post.author.image),
+                          backgroundImage: NetworkImage(post.author.image.type),
                         ),
                         Text(
                           post.author.name,

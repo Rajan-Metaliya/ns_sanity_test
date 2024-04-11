@@ -14,18 +14,18 @@ class PostDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(post.name),
+        title: Text(post.title),
       ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.network(
-              post.image,
-              fit: BoxFit.cover,
-              width: double.infinity,
-              height: 300,
-            ),
+            // Image.network(
+            //   post.image,
+            //   fit: BoxFit.cover,
+            //   width: double.infinity,
+            //   height: 300,
+            // ),
             const SizedBox(height: 16),
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -33,7 +33,7 @@ class PostDetailsScreen extends StatelessWidget {
                 const SizedBox(width: 16),
                 CircleAvatar(
                   radius: 20,
-                  backgroundImage: NetworkImage(post.author.image),
+                  backgroundImage: NetworkImage(post.author.image.type),
                 ),
                 const SizedBox(width: 16),
                 Text(
@@ -57,7 +57,7 @@ class PostDetailsScreen extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             Text(
-              post.body,
+              post.body.first.children.first.text,
               style: Theme.of(context).textTheme.bodyLarge,
             ),
           ],

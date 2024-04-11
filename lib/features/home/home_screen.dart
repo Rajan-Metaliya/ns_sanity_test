@@ -29,17 +29,33 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   _getData() async {
-    print('sanityClient: ${PostModel.sanityPost}');
     try {
       final data = await sanityClient.fetch(
-        "*[_type == 'post']${PostModel.sanityPost}",
+        """
+*[_type == 'post']{
+  title,
+  slug,
+  mainImage,
+  excerpt,
+  body,
+  author->{
+  name,
+  slug,
+  image,
+  bio,
+},
+  categories[]->{
+  title,
+  description,
+},
+}
+""",
       );
 
       print('Data: $data');
+      // List<Map<String, dynamic>> result = data['result'];
       posts = List<PostModel>.from(
-        data.map(
-          (category) => PostModel.fromJson(category),
-        ),
+        data.map((x) => PostModel.fromJson(x)),
       );
 
       setState(() {});
