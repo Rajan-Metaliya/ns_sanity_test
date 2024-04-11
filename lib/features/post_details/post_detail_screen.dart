@@ -64,7 +64,7 @@ class PostDetailsScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    post.body.first.children.first.text,
+                    post.bodyText,
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                 ],

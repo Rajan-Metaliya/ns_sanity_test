@@ -14,6 +14,10 @@ class PostModel {
   final Author author;
   final List<Category> categories;
 
+  String get bodyText {
+    return body.map((e) => e.text).join('\n');
+  }
+
   PostModel({
     required this.title,
     required this.slug,
@@ -91,6 +95,10 @@ class Body {
   final List<Child> children;
   final String type;
   final String style;
+
+  String get text {
+    return children.map((e) => e.text).join();
+  }
 
   Body({
     required this.key,
