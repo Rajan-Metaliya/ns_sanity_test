@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 import '../../app/config/app_config.dart';
@@ -45,7 +47,6 @@ class _HomeScreenState extends State<HomeScreen> {
 """,
       );
 
-      print('Data: $data');
       // List<Map<String, dynamic>> result = data['result'];
       posts = List<PostModel>.from(
         data.map((x) => PostModel.fromJson(x)),
@@ -53,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
       setState(() {});
     } catch (e, s) {
-      print('Error: $e, Stack: $s');
+      log('Error: $e, Stack: $s');
     }
   }
 
@@ -69,11 +70,11 @@ class _HomeScreenState extends State<HomeScreen> {
             )
           : GridView.builder(
               gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: 400,
+                maxCrossAxisExtent: 500,
                 mainAxisExtent: 400,
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 10,
-                childAspectRatio: 1,
+                childAspectRatio: 1.3,
               ),
               itemCount: posts.length,
               itemBuilder: (context, index) {
